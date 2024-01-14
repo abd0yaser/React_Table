@@ -2,7 +2,6 @@ import styled from "styled-components";
 export const Styles = styled.div`
   .table {
     border: 1px solid #ddd;
-
     .tr {
       :last-child {
         .td {
@@ -50,14 +49,24 @@ export const Styles = styled.div`
 
       [data-sticky-td] {
         position: sticky;
+        left: 0;
       }
 
+      [data-sticky-td="right"] {
+        position: sticky;
+        right: 0;
+      }
+
+      [data-sticky-td="left"] {
+        position: sticky;
+        left: 0;
+      }
       [data-sticky-last-left-td] {
-        box-shadow: 2px 0px 3px #ccc;
+        box-shadow: -2px 0px 3px #ccc;
       }
 
       [data-sticky-first-right-td] {
-        box-shadow: -2px 0px 3px #ccc;
+        box-shadow: 2px 0px 3px #ccc;
       }
     }
   }

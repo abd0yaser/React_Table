@@ -1,89 +1,6 @@
-// import React, { useMemo } from "react";
-// import { useTable } from "react-table";
-// import MOCK_DATA from "../MOCK_DATA.json";
-
-// export default function Table() {
-//   const data = useMemo(() => MOCK_DATA, []);
-
-//   const columns = useMemo(
-//     () => [
-//       { Header: "ID", accessor: "id", pinned: "left" },
-//       { Header: "First Name", accessor: "first_name" },
-//       { Header: "Last Name", accessor: "last_name" },
-//       { Header: "Email", accessor: "email" },
-//       { Header: "Birth Date", accessor: "birth_date" },
-//       { Header: "Age", accessor: "age" },
-//       { Header: "Gender", accessor: "gender" },
-//       { Header: "Country", accessor: "country", pinned: "right" },
-//     ],
-//     []
-//   );
-
-//   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-//     useTable({ columns, data });
-
-//   return (
-//     <div style={{ overflowX: "auto" }}>
-//       <table
-//         {...getTableProps()}
-//         style={{
-//           borderCollapse: "collapse",
-//           width: "100%",
-//         }}
-//       >
-//         <thead style={{ backgroundColor: "lightgrey" }}>
-//           {headerGroups.map((headerGroup) => (
-//             <tr {...headerGroup.getHeaderGroupProps()}>
-//               {headerGroup.headers.map((column) => (
-//                 <th
-//                   {...column.getHeaderProps()}
-//                   style={{
-//                     borderBottom: "1px solid",
-//                     padding: "8px",
-//                     backgroundColor: "lightgrey",
-//                     position: column.pinned ? "sticky" : "inherit",
-//                     left: column.pinned === "left" ? 0 : "inherit",
-//                     right: column.pinned === "right" ? 0 : "inherit",
-//                   }}
-//                 >
-//                   {column.render("Header")}
-//                 </th>
-//               ))}
-//             </tr>
-//           ))}
-//         </thead>
-//         <tbody {...getTableBodyProps()}>
-//           {rows.map((row) => {
-//             prepareRow(row);
-//             return (
-//               <tr {...row.getRowProps()} style={{ borderBottom: "1px solid" }}>
-//                 {row.cells.map((cell, colIndex) => (
-//                   <td
-//                     {...cell.getCellProps()}
-//                     style={{
-//                       padding: "8px",
-//                       textAlign: "center",
-//                       position: cell.column.pinned ? "sticky" : "inherit",
-//                       left: cell.column.pinned === "left" ? 0 : "inherit",
-//                       right: cell.column.pinned === "right" ? 0 : "inherit",
-//                       backgroundColor: "white",
-//                     }}
-//                   >
-//                     {cell.render("Cell")}
-//                   </td>
-//                 ))}
-//               </tr>
-//             );
-//           })}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
 import React, { useMemo } from "react";
 import { useTable, useBlockLayout } from "react-table";
 import { useSticky } from "react-table-sticky";
-
 import MOCK_DATA from "../MOCK_DATA.json";
 import { Styles } from "./TableStyles";
 
@@ -126,7 +43,14 @@ export default function Table() {
           {headerGroups.map((headerGroup) => (
             <div {...headerGroup.getHeaderGroupProps()} className="tr">
               {headerGroup.headers.map((column) => (
-                <div {...column.getHeaderProps()} className="th">
+                <div
+                  {...column.getHeaderProps()}
+                  className={`th ${column.isSticky ? "sticky" : ""}`}
+                  // Apply the data-sticky-td attribute to the right column
+                  data-sticky-td={
+                    column.id === "credit_card" ? "right" : undefined
+                  }
+                >
                   {column.render("Header")}
                 </div>
               ))}
@@ -139,7 +63,14 @@ export default function Table() {
             return (
               <div {...row.getRowProps()} className="tr">
                 {row.cells.map((cell) => (
-                  <div {...cell.getCellProps()} className="td">
+                  <div
+                    {...cell.getCellProps()}
+                    className={`td ${cell.column.isSticky ? "sticky" : ""}`}
+                    // Apply the data-sticky-td attribute to the right column
+                    data-sticky-td={
+                      cell.column.id === "credit_card" ? "right" : undefined
+                    }
+                  >
                     {cell.render("Cell")}
                   </div>
                 ))}
